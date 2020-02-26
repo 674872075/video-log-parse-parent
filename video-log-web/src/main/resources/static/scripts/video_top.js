@@ -38,6 +38,11 @@ function init() {
                 let listItem = ''
                 for (var i = 0; i < params.length; i++) {
                     if (params[i].seriesName == '播放量') {
+                        let playCount = params[i].value;
+                        if (playCount > 10000) {
+                            playCount = Math.round(playCount / 1000) / 10;
+                            playCount = playCount + '万';
+                        }
                         list.push(
                             params[i].name +
                             '<br/>' +
@@ -45,7 +50,7 @@ function init() {
                             params[i].color +
                             ';margin-right: 5px;border-radius: 50%;}"></i><span style="display:inline-block;">' +
                             params[i].seriesName + ' : ' +
-                            params[i].value + '万' +
+                            playCount +
                             '</span>'
                         );
                     } else {
@@ -177,9 +182,6 @@ function init() {
                 let videoName = row.videoName;
                 //播放量
                 let playCount = row.playCount;
-                if (playCount > 10000) {
-                    playCount = Math.round(playCount / 1000) / 10;
-                }
                 //视频类型
                 let videoTypeId = row.videoTypeId;
                 let videoTypeName = row.videoTypeName;

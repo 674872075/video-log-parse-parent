@@ -38,6 +38,11 @@ function init() {
                 let listItem = ''
                 for (var i = 0; i < params.length; i++) {
                     if (params[i].seriesName == '该分类视频最高播放量') {
+                        let maxPlayCount = params[i].value;
+                        if (maxPlayCount > 10000) {
+                            maxPlayCount = Math.round(maxPlayCount / 1000) / 10;
+                            maxPlayCount = maxPlayCount + '万';
+                        }
                         list.push(
                             params[i].name +
                             '<br/>' +
@@ -45,7 +50,7 @@ function init() {
                             params[i].color +
                             ';margin-right: 5px;border-radius: 50%;}"></i><span style="display:inline-block;">' +
                             params[i].seriesName + ' : ' +
-                            params[i].value + '万' +
+                            maxPlayCount +
                             '</span>'
                         );
                     } else {
@@ -117,9 +122,7 @@ function init() {
                 let videoTypeName = row.videoTypeName;
                 //播放量
                 let maxPlayCount = row.maxPlayCount;
-                if (maxPlayCount > 10000) {
-                    maxPlayCount = Math.round(maxPlayCount / 1000) / 10;
-                }
+
                 video_type_max_option.yAxis.data.push(videoTypeName);
                 video_type_max_option.series[0].data.push(maxPlayCount);
                 video_type_max_option.series[1].data.push(videoName);
