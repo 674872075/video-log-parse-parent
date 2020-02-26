@@ -1,0 +1,3 @@
+spring:
+  profiles:
+    active: dev #可配置多个 用,分隔 jar包形式运行时使用java -jar XXX.jar --spring.profiles.active=dev覆盖配置
