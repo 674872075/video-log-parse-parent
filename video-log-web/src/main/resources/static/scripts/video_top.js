@@ -57,7 +57,7 @@ function init() {
                         list.push(
                             '<i style="display: inline-block;width: 10px;height: 10px;background: ' +
                             params[i].color +
-                            ';margin-right: 5px;border-radius: 50%;}"></i><span style="display:inline-block;">' +
+                            ';margin-right: 5px;border-radius: 50%;"></i><span style="display:inline-block;">' +
                             params[i].seriesName + ' : ' +
                             params[i].value +
                             '</span>');
@@ -118,7 +118,7 @@ function init() {
                     '<br/>' +
                     '<i style="display: inline-block;width: 10px;height: 10px;background: ' +
                     params.color +
-                    ';margin-right: 5px;border-radius: 50%;}"></i><span style="display:inline-block;">' +
+                    ';margin-right: 5px;border-radius: 50%;"></i><span style="display:inline-block;">' +
                     '总计 : ' +
                     params.value + '个' +
                     '</span>' +

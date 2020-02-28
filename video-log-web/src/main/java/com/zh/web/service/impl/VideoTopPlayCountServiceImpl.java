@@ -42,7 +42,8 @@ public class VideoTopPlayCountServiceImpl implements VideoTopPlayCountService {
     public DataGridResult<VideoTopPlayCount> queryVideoTopPlayCounts(VideoTopPlayCount videoTopPlayCount, int page, int rows) {
         //使用PageHelper进行分页
         PageHelper.startPage(page, rows);
-        Example example=new Example(VideoTopPlayCount.class);
+        Example example=new Example(VideoTopPlayCount.class,false);
+        //example.excludeProperties("videoTypeName");
         example.setOrderByClause("play_count asc");
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo(videoTopPlayCount);

@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 /**
@@ -28,6 +29,8 @@ public class VideoTopPlayCount implements Serializable {
     
     private String videoTypeId;
 
+    //不与数据库字段对应,数据库表不存在此字段
+    @Transient
     private String videoTypeName;
 
     private String videoAuthorMid;
