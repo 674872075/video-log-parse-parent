@@ -883,7 +883,7 @@ select[multiple].input-group-sm>.form-control,select[multiple].input-group-sm>.i
 .nav>li>a:focus,.nav>li>a:hover{text-decoration:none;background-color:#eee}
 .nav>li.disabled>a{color:#777}
 .nav>li.disabled>a:focus,.nav>li.disabled>a:hover{color:#777;text-decoration:none;cursor:not-allowed;background-color:transparent}
-/*.nav .open>a,.nav .open>a:focus,.nav .open>a:hover{background-color:#eee;border-color:#333}*/
+/*.nav .open>A,.nav .open>A:focus,.nav .open>A:hover{background-color:#eee;border-color:#333}*/
 .nav .nav-divider{height:1px;margin:9px 0;overflow:hidden;background-color:#e5e5e5}
 .nav>li>a>img{max-width:none}
 .nav-tabs{border-bottom:1px solid #ccc;padding-left:8px;padding-top:8px;}
