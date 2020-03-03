@@ -191,7 +191,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
     private Site site = Site.me()
             .setDomain("bilibili.com")//设置域名，需设置域名后，addCookie才可生效
             .setCharset("utf-8") //按照哪种字符集进行读取
-            .setSleepTime(2000)
+            .setSleepTime(2000) //爬取间隔时间
             .setTimeOut(10000)//超时时间 毫秒
             .setRetrySleepTime(3000)//重试间隔时间 毫秒
             .setRetryTimes(3);//重试次数

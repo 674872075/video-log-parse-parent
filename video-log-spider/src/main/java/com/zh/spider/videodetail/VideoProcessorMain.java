@@ -31,7 +31,7 @@ public class VideoProcessorMain {
                 .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(100000)))
                 .addPipeline(new FileDateNewPipeline(args[0]))
                 .addUrl(Constants.VIDEO_CATEGORY_URL)
-                .thread(25)
+                .thread(20)
                 .run();
     }
 }
