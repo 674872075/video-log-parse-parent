@@ -2,8 +2,7 @@ var date = getFormatDate(new Date());
 
 
 $(function () {
-    //选中top_li
-    $('#top_li').attr('class', 'nav_active');
+    $('#top_play_li').attr('class', 'nav_active');
     init();
 })
 
@@ -18,7 +17,7 @@ function init() {
             color: '#fff'
         },
         title: {
-            text: '视频top10收视排行',
+            text: '视频top10播放排行',
             subtext: '数据来自B站',
             textStyle: {
                 color: '#ff6100'
@@ -37,9 +36,14 @@ function init() {
                 let list = []
                 let listItem = ''
                 for (var i = 0; i < params.length; i++) {
+                    let videoName = params[i].name;
+                    if (String(videoName).length > 25) {
+                        let index = Math.ceil(String(videoName).length / 2);
+                        params[i].name = String(videoName).substr(0, index) + "<br/>" + String(videoName).substr(index);
+                    }
                     if (params[i].seriesName == '播放量') {
                         let playCount = params[i].value;
-                        if (playCount > 10000) {
+                        if (playCount >= 10000) {
                             playCount = Math.round(playCount / 1000) / 10;
                             playCount = playCount + '万';
                         }
@@ -81,11 +85,23 @@ function init() {
         },
         xAxis: {
             type: 'value',
-            boundaryGap: [0, 0.01]
+            boundaryGap: [0, 0.01],
+            axisLabel:{
+                interval:0,//横轴信息全部显示
+                rotate:-15,//-15度角倾斜显示
+            }
         },
         yAxis: {
             type: 'category',
-            data: []
+            data: [],
+            axisLabel: {
+                formatter: function (yData) {
+                    if (String(yData).length > 25) {
+                        yData = String(yData).substr(0, 25) + "...";
+                    }
+                    return yData;
+                }
+            }
         },
         series: [
             {
@@ -103,7 +119,7 @@ function init() {
 
     let video_type_count_option = {
         title: {
-            text: '视频top10收视排行各分类占比',
+            text: '视频top10播放排行各分类占比',
             left: 'center',
             textStyle: {
                 color: '#ff6100'
@@ -138,14 +154,15 @@ function init() {
             data: ['趣味科普人文', '搞笑', '健身'],
             textStyle: {
                 color: '#fff'
-            }
+            },
+            top: '10%'
         },
         series: [
             {
                 name: '视频分类',
                 type: 'pie',
                 radius: '55%',
-                center: ['50%', '60%'],
+                center: ['58%', '58%'],
                 data: [
                     {value: 3, name: '趣味科普人文'},
                     {value: 2, name: '搞笑'},
@@ -190,7 +207,7 @@ function init() {
                 video_top_rank_option.series[1].data.push(videoTypeName);
             });
             console.log(video_top_rank_option);
-            //视频top10收视排行
+            //视频top10播放排行
             var video_top_rank = echarts.init(document.getElementById('video_top_rank'));
             video_top_rank.setOption(video_top_rank_option);
         },
@@ -223,7 +240,7 @@ function init() {
                 resultData.name = videoTypeName;
                 video_type_count_option.series[0].data.push(resultData);
             });
-            //视频top10收视排行各分类占比
+            //视频top10播放排行各分类占比
             var video_type_count = echarts.init(document.getElementById('video_type_count'));
             video_type_count.setOption(video_type_count_option);
         }

@@ -18,7 +18,7 @@ function init() {
             color: '#fff'
         },
         title: {
-            text: '各分类视频信息采集概况',
+            text: '视频信息总采集概况',
             subtext: '数据来自B站,采集日期 : ' + date,
             textStyle: {
                 color: '#ff6100'

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zh.web.dao.VideoTopCollectCountMapper">
+
+    <select id="getVideoCategoryCount" resultType="VideoTypeCount">
+        SELECT
+			v1.video_type_id video_type_id,
+			v.video_type_name video_type_name,
+			v1.count video_count
+		FROM
+			dw_video_type_count v
+		INNER JOIN
+		( SELECT t.video_type_id video_type_id, count( t.video_type_id ) count
+			FROM dw_video_top_collect_count t
+			GROUP BY t.video_type_id ) v1
+		ON v.video_type_id = v1.video_type_id;
+    </select>
+
+    <select id="findAll" resultType="VideoTopCollectCount">
+		SELECT
+			v.video_type_id,
+			v1.video_type_name,
+			v.video_name,
+			v.video_collect_count
+		FROM
+			dw_video_top_collect_count v
+		INNER JOIN dw_video_type_count v1 ON v.video_type_id = v1.video_type_id
+		ORDER BY v.video_collect_count ASC
+	</select>
+</mapper>

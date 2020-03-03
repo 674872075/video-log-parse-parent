@@ -2,8 +2,7 @@ var date = getFormatDate(new Date());
 
 
 $(function () {
-    //选中video_type_count_li
-    $('#video_day_type_count_li').attr('class', 'nav_active');
+    $('#video_type_count_li').attr('class', 'nav_active');
     init();
 })
 
@@ -136,6 +135,7 @@ function init() {
                             rows.forEach(row => {
                                 let seriesData = {
                                     name: '', type: 'line', data: [],
+                                    smooth: true,
                                     lineStyle: {
                                         width: 1
                                     }

@@ -18,7 +18,7 @@ function init() {
             color: '#fff'
         },
         title: {
-            text: '各分类最高收视排行',
+            text: '各分类最高播放排行',
             subtext: '数据来自B站',
             textStyle: {
                 color: '#ff6100'
@@ -39,7 +39,7 @@ function init() {
                 for (var i = 0; i < params.length; i++) {
                     if (params[i].seriesName == '该分类视频最高播放量') {
                         let maxPlayCount = params[i].value;
-                        if (maxPlayCount > 10000) {
+                        if (maxPlayCount >= 10000) {
                             maxPlayCount = Math.round(maxPlayCount / 1000) / 10;
                             maxPlayCount = maxPlayCount + '万';
                         }
@@ -54,10 +54,15 @@ function init() {
                             '</span>'
                         );
                     } else {
+                        let videoName = params[i].value;
+                        if (String(videoName).length > 25) {
+                            let index = Math.ceil(String(videoName).length / 2);
+                            params[i].value = String(videoName).substr(0, index) + "<br/>" + String(videoName).substr(index);
+                        }
                         list.push(
                             '<i style="display: inline-block;width: 10px;height: 10px;background: ' +
                             params[i].color +
-                            ';margin-right: 5px;border-radius: 50%;}"></i><span style="display:inline-block;">' +
+                            ';margin-right: 5px;border-radius: 50%;}"></i><span >' +
                             params[i].seriesName + ' : ' +
                             params[i].value +
                             '</span>');
@@ -122,7 +127,6 @@ function init() {
                 let videoTypeName = row.videoTypeName;
                 //播放量
                 let maxPlayCount = row.maxPlayCount;
-
                 video_type_max_option.yAxis.data.push(videoTypeName);
                 video_type_max_option.series[0].data.push(maxPlayCount);
                 video_type_max_option.series[1].data.push(videoName);
