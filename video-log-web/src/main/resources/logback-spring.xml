@@ -34,10 +34,11 @@
         <appender-ref ref="FILE"/>
     </appender>
 
-
+    <!--additivity="false" 不将消息传递给父logger(这里指root) 如果设置为true并且该logger也定义了appender会导致多次打印 -->
     <logger name="org.apache.ibatis.cache.decorators.LoggingCache" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
+
     <logger name="org.springframework.boot" level="DEBUG"/>
     <!--打印sql语句-->
     <logger name="com.zh.web.dao" level="DEBUG" />

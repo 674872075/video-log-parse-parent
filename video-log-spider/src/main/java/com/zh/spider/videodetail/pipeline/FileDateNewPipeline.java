@@ -17,8 +17,7 @@ import java.util.Objects;
  * @author zhouhao
  * @version 1.0
  * @date 2020/2/19 00:25
- * @Description
- * 用于持久化数据
+ * @Description 用于持久化数据
  */
 @Slf4j
 public class FileDateNewPipeline implements Pipeline {
@@ -27,30 +26,30 @@ public class FileDateNewPipeline implements Pipeline {
 
     private String path;
 
-    public FileDateNewPipeline(String path){
-        this.path=path;
+    public FileDateNewPipeline(String path) {
+        this.path = path;
     }
 
     @Override
     public void process(ResultItems resultItems, Task task) {
         VideoDetails videoDetails = resultItems.get("videoDetails");
-        if(Objects.isNull(videoDetails)){
+        if (Objects.isNull(videoDetails)) {
             return;
         }
         String path = this.path + PATH_SEPERATOR;
-        File file=new File(path);
-        if(!file.exists()){
+        File file = new File(path);
+        if (!file.exists()) {
             file.mkdirs();
         }
         LocalDateTime now = LocalDateTime.now();
         String nowStr = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        try(BufferedWriter bw =new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path
-                +"access.log."
-                +nowStr
-                ,true), "utf-8"))) {
-                bw.write(videoDetails.toString());
-                bw.newLine();
-                bw.flush();
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path
+                + "access.log."
+                + nowStr
+                , true), "utf-8"))) {
+            bw.write(videoDetails.toString());
+            bw.newLine();
+            bw.flush();
         } catch (Exception e) {
             log.warn("write file error", e);
         }
@@ -59,8 +58,9 @@ public class FileDateNewPipeline implements Pipeline {
     public static void main(String[] args) {
        /* LocalDateTime now = LocalDateTime.parse("1581825622");
         String nowStr = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));*/
-        Date date=new Date(1581825622);
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        long pubDate = 1581825622;
+        Date date = new Date(pubDate * 1000);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         /*Instant instant = date.toInstant();
         ZoneId zoneId = ZoneId.systemDefault();
         LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zoneId);

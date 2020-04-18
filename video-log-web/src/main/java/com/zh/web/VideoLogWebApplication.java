@@ -16,11 +16,12 @@ import tk.mybatis.spring.annotation.MapperScan;
 /*显式定义ComponentScan之后会覆盖SpringBootApplication中的ComponentScan*/
 @ComponentScan("com.zh.common")
 @ComponentScan("com.zh.web")
-@MapperScan(basePackages = {"com.zh.web.dao"},markerInterface = IBaseDao.class)
+@MapperScan(basePackages = {"com.zh.web.dao"}, markerInterface = IBaseDao.class)
 public class VideoLogWebApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(VideoLogWebApplication.class,args);
+        SpringApplication.run(VideoLogWebApplication.class, args);
     }
 
 }
+

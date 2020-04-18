@@ -19,7 +19,7 @@ import java.io.IOException;
 public class VideoDetails implements WritableComparable<VideoDetails> {
 
     /**
-     * 视频名字
+     * 视频ID
      */
     private String videoAid;
 

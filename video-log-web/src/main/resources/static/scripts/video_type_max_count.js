@@ -2,8 +2,7 @@ var date = getFormatDate(new Date());
 
 
 $(function () {
-    //选中top_li
-    $('#video_type_max_count_li').attr('class', 'nav_active');
+    $('#top_play_li').attr('class', 'nav_active');
     init();
 })
 
@@ -90,7 +89,10 @@ function init() {
         },
         yAxis: {
             type: 'category',
-            data: []
+            data: [],
+            axisLabel:{
+                interval:0//纵轴信息全部显示
+            }
         },
         series: [
             {

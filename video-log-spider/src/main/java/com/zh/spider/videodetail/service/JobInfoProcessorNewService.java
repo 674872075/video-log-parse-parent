@@ -22,11 +22,21 @@ import java.util.Optional;
  * @date 2020/2/18 13:17
  * @Description 页面详情页处理
  */
-//https://api.bilibili.com/x/web-interface/view?aid=88304073&cid=151930706
-//https://api.bilibili.com/x/web-interface/view?aid=88304073
+/**
+ * 个人信息接口 根据mid(用户id)查询
+ * https://api.bilibili.com/x/space/acc/info?mid=270494247&jsonp=jsonp
+ *
+ * 视频详情页 根据aid(视频id)查询
+ * https://api.bilibili.com/x/web-interface/view?aid=88304073
+ *
+ * 视频列表页
+ * https://s.search.bilibili.com/cate/search?callback=jqueryCallback_bili_04516996634956216&main_ver=v3&search_type=video&view_type=hot_rank&order=click&copy_right=-1&cate_id=24&page=1
+ *  &pagesize=20&jsonp=jsonp&time_from=20200211&time_to=20200218&_=1582032132311
+ *
+ */
 
-/*https://s.search.bilibili.com/cate/search?callback=jqueryCallback_bili_04516996634956216&main_ver=v3&search_type=video&view_type=hot_rank&order=click&copy_right=-1&cate_id=24&page=1
- &pagesize=20&jsonp=jsonp&time_from=20200211&time_to=20200218&_=1582032132311*/
+//https://api.bilibili.com/x/web-interface/view?aid=88304073&cid=151930706
+
 @Slf4j
 public class JobInfoProcessorNewService implements PageProcessor {
     /**
@@ -66,6 +76,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
                         page.addTargetRequest(request);
                     }*/
                 }
+                //消除jsonp填充内容
                 String numPages = page.getJson().removePadding("callback").jsonPath("$.numPages").get();
                 String curPage = page.getJson().removePadding("callback").jsonPath("$.page").get();
                 int cur_page = Integer.parseInt(curPage);

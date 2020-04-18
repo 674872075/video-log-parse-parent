@@ -33,8 +33,6 @@ public class VideoClassifyReducer extends Reducer<VideoDetails, Text, NullWritab
         try {
             LocalDateTime localDateTime = LocalDateTime.parse(videoDetails.getPublishDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             String pubdate = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            LocalDateTime nowlocalDateTime = LocalDateTime.now();
-            String dirPubdate = nowlocalDateTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
             path ="access_log_"+ pubdate;
         } catch (Exception e) {
             log.error("数据日期格式错误,videoDetails:[{}]", videoDetails, e.getMessage());
