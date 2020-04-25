@@ -52,15 +52,15 @@ public class FileDateNewPipeline implements Pipeline {
             bw.newLine();
             bw.flush();
         } catch (Exception e) {
-            log.warn("write file error", e);
+            log.error("文件写入错误: [{}]", e.getMessage(), e);
         }
     }
 
     public static void main(String[] args) {
        /* LocalDateTime now = LocalDateTime.parse("1581825622");
         String nowStr = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));*/
-        long pubDate = 1581825622;
-        Date date = new Date(pubDate * 1000);
+        long pubDate = 1581825622; //秒
+        Date date = new Date(pubDate * 1000); //转成毫秒
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         /*Instant instant = date.toInstant();
         ZoneId zoneId = ZoneId.systemDefault();

@@ -21,7 +21,7 @@ public class VideoProcessorMain {
             args = new String[1];
             args[0] = PropertiesUtils.getProperty("defaultOutPath");
         }
-
+        //设置代理IP池
         /*HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
         httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(
                 new Proxy("60.191.11.229", 3128),
