@@ -33,6 +33,7 @@ public class FileDateNewPipeline implements Pipeline {
     @Override
     public void process(ResultItems resultItems, Task task) {
         VideoDetails videoDetails = resultItems.get("videoDetails");
+        //非空判断 防止空指针
         if (Objects.isNull(videoDetails)) {
             return;
         }

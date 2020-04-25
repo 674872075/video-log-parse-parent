@@ -3,6 +3,7 @@ package com.zh.spider.videodetail;
 import com.zh.spider.videodetail.entity.Constants;
 import com.zh.spider.videodetail.pipeline.FileDateNewPipeline;
 import com.zh.spider.videodetail.service.JobInfoProcessorNewService;
+import com.zh.spider.videodetail.utils.PropertiesUtils;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
 import us.codecraft.webmagic.scheduler.QueueScheduler;
@@ -18,7 +19,7 @@ public class VideoProcessorMain {
     public static void main(String[] args) {
         if (args == null || args.length < 1) {
             args = new String[1];
-            args[0] = "C:\\Users\\Tourist\\Desktop\\video-log\\newinput";
+            args[0] = PropertiesUtils.getProperty("defaultOutPath");
         }
 
         /*HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
@@ -31,7 +32,7 @@ public class VideoProcessorMain {
                 .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(100000)))
                 .addPipeline(new FileDateNewPipeline(args[0]))
                 .addUrl(Constants.VIDEO_CATEGORY_URL)
-                .thread(20)
+                .thread(18)
                 .run();
     }
 }

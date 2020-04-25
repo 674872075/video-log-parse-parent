@@ -1,5 +1,7 @@
 package com.zh.spider.videodetail.service;
 
+import com.jayway.jsonpath.PathNotFoundException;
+import com.zh.spider.videodetail.entity.Constants;
 import com.zh.spider.videodetail.entity.VideoDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -22,28 +24,23 @@ import java.util.Optional;
  * @date 2020/2/18 13:17
  * @Description 页面详情页处理
  */
+
 /**
  * 个人信息接口 根据mid(用户id)查询
  * https://api.bilibili.com/x/space/acc/info?mid=270494247&jsonp=jsonp
- *
+ * <p>
  * 视频详情页 根据aid(视频id)查询
  * https://api.bilibili.com/x/web-interface/view?aid=88304073
- *
+ * <p>
  * 视频列表页
  * https://s.search.bilibili.com/cate/search?callback=jqueryCallback_bili_04516996634956216&main_ver=v3&search_type=video&view_type=hot_rank&order=click&copy_right=-1&cate_id=24&page=1
- *  &pagesize=20&jsonp=jsonp&time_from=20200211&time_to=20200218&_=1582032132311
- *
+ * &pagesize=20&jsonp=jsonp&time_from=20200211&time_to=20200218&_=1582032132311
  */
 
 //https://api.bilibili.com/x/web-interface/view?aid=88304073&cid=151930706
 
 @Slf4j
 public class JobInfoProcessorNewService implements PageProcessor {
-    /**
-     * 视频详情页接口
-     */
-    private static final String URL_DETAIL_PREFIX = "https://api.bilibili.com/x/web-interface/view?aid=";
-
 
     @Override
     public void process(Page page) {
@@ -58,23 +55,16 @@ public class JobInfoProcessorNewService implements PageProcessor {
                     String pubdate = resultJson.jsonPath("$.pubdate").get();
                     String aid = resultJson.jsonPath("$.id").get();
                     //防止aid不存在
-                    if(StringUtils.isNotBlank(aid)){
+                    if (StringUtils.isNotBlank(aid)) {
                         Map<String, Object> map = new HashMap<>();
                         map.put("videoUrl", arcurl);
                         map.put("rankScore", rankScore);
                         map.put("pubdate", pubdate);
-                        arcurl = URL_DETAIL_PREFIX + aid;
+                        arcurl = Constants.URL_DETAIL_PREFIX + aid;
                         Request request = new Request(arcurl);
                         request.setExtras(map);
                         page.addTargetRequest(request);
                     }
-                   /* int index = arcurl.lastIndexOf("av");
-                    if (index != -1) {
-                        arcurl = URL_DETAIL_PREFIX + arcurl.substring(index + 2);
-                        Request request = new Request(arcurl);
-                        request.setExtras(map);
-                        page.addTargetRequest(request);
-                    }*/
                 }
                 //消除jsonp填充内容
                 String numPages = page.getJson().removePadding("callback").jsonPath("$.numPages").get();
@@ -95,10 +85,15 @@ public class JobInfoProcessorNewService implements PageProcessor {
                     page.addTargetRequest(pageListUrl);
                 }
             }
-        } catch (Exception e) {
-            //jsonPath的第二级节点没找到会抛出异常此时肯定不在列表页那就是详情页了
+            //列表页不保存数据 此次请求不进入管道pipeline 可节省资源
+            page.setSkip(true);
+        } catch (IllegalStateException | PathNotFoundException e) {
+            //removePadding移除回调填充失败会抛出异常IllegalStateException 此时肯定不在列表页那就是详情页了
+            //jsonPath的第二级节点没找到会抛出异常PathNotFoundException 此时肯定不在列表页那就是详情页了
             //详情页
             getVideodetails(page);
+        } catch (Exception e) {
+            log.error("爬取数据出错：{}", e.getMessage(), e);
         }
 
     }
@@ -109,7 +104,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
         String code = json.jsonPath("$.code").get();
         if (!code.equals("0")) {
             String message = json.jsonPath("$.message").get();
-            log.error("爬取视频详情时出错,错误信息: [{}],视频地址:[{}]", message,page.getRequest().getUrl());
+            log.error("爬取视频详情时出错,错误信息: [{}],视频地址:[{}]", message, page.getRequest().getUrl());
             return;
         }
         //获取视频ID
