@@ -93,7 +93,9 @@ public class JobInfoProcessorNewService implements PageProcessor {
             //详情页
             getVideodetails(page);
         } catch (Exception e) {
-            log.error("爬取数据出错：{}", e.getMessage(), e);
+            if (log.isErrorEnabled()) {
+                log.error("爬取数据出错：{}", e.getMessage(), e);
+            }
         }
     }
 
@@ -103,7 +105,9 @@ public class JobInfoProcessorNewService implements PageProcessor {
         String code = json.jsonPath("$.code").get();
         if (!code.equals("0")) {
             String message = json.jsonPath("$.message").get();
-            log.error("爬取视频详情时出错,错误信息: [{}],视频地址:[{}]", message, page.getRequest().getUrl());
+            if (log.isErrorEnabled()) {
+                log.error("爬取视频详情时出错,错误信息: [{}],视频地址:[{}]", message, page.getRequest().getUrl());
+            }
             return;
         }
         //获取视频ID

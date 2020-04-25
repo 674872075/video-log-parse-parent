@@ -52,7 +52,9 @@ public class FileDateNewPipeline implements Pipeline {
             bw.newLine();
             bw.flush();
         } catch (Exception e) {
-            log.error("文件写入错误: [{}]", e.getMessage(), e);
+            if (log.isErrorEnabled()) {
+                log.error("文件写入错误: [{}]", e.getMessage(), e);
+            }
         }
     }
 
