@@ -95,7 +95,6 @@ public class JobInfoProcessorNewService implements PageProcessor {
         } catch (Exception e) {
             log.error("爬取数据出错：{}", e.getMessage(), e);
         }
-
     }
 
     //详情页处理
