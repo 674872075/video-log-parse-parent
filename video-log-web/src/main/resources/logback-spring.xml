@@ -15,6 +15,9 @@
 
     <!-- 按照每天生成日志文件 -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>
+            ${LOG_HOME}/video_log.log
+        </file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
             <fileNamePattern>${LOG_HOME}/video_log.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -41,7 +44,7 @@
 
     <logger name="org.springframework.boot" level="DEBUG"/>
     <!--打印sql语句-->
-    <logger name="com.zh.web.dao" level="DEBUG" />
+    <logger name="com.zh.web.dao" level="DEBUG"/>
     <root level="info">
         <!--<appender-ref ref="ASYNC"/>-->
         <appender-ref ref="FILE"/>
