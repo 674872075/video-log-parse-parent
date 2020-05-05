@@ -62,6 +62,10 @@ public class JobInfoProcessorNewService implements PageProcessor {
                         map.put("pubdate", pubdate);
                         arcurl = Constants.URL_DETAIL_PREFIX + aid;
                         Request request = new Request(arcurl);
+                        //添加浏览器标识  可一定程度上减少触发反爬机制
+                        request.addHeader("user-agent", Constants.USER_AGENT);
+                        //链接来源  避开防盗链设置
+                        request.addHeader("referer", arcurl);
                         request.setExtras(map);
                         page.addTargetRequest(request);
                     }
@@ -85,7 +89,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
                     page.addTargetRequest(pageListUrl);
                 }
             }
-            //列表页不保存数据 此次请求不进入管道pipeline 可节省资源
+            //列表页不保存数据  设置为true标识此次请求不进入管道pipeline 可节省资源
             page.setSkip(true);
         } catch (IllegalStateException | PathNotFoundException e) {
             //removePadding移除回调填充失败会抛出异常IllegalStateException 此时肯定不在列表页那就是详情页了
@@ -99,7 +103,9 @@ public class JobInfoProcessorNewService implements PageProcessor {
         }
     }
 
-    //详情页处理
+    /**
+     * 视频详情页处理
+     */
     private void getVideodetails(Page page) {
         Json json = page.getJson();
         String code = json.jsonPath("$.code").get();
@@ -200,7 +206,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
     private Site site = Site.me()
             .setDomain("bilibili.com")//设置域名，需设置域名后，addCookie才可生效
             .setCharset("utf-8") //按照哪种字符集进行读取
-            .setSleepTime(2000) //url之间的爬取间隔时间
+            .setSleepTime(3000) //url之间的爬取间隔时间
             .setTimeOut(10000)//超时时间 毫秒
             .setRetrySleepTime(3000)//重试间隔时间 毫秒
             .setRetryTimes(3);//重试次数

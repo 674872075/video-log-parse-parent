@@ -12,18 +12,18 @@ import java.util.Properties;
  * @Description
  */
 @Slf4j
-public final class PropertiesUtils {
+public final class SpiderPropertiesUtils {
 
     private static final Properties config;
 
-    private PropertiesUtils() {
+    private SpiderPropertiesUtils() {
     }
 
     static {
         config = new Properties();
         try {
             //加载配置文件
-            config.load(PropertiesUtils.class.getClassLoader().getResourceAsStream("config.properties"));
+            config.load(SpiderPropertiesUtils.class.getClassLoader().getResourceAsStream("spider-config.properties"));
         } catch (IOException e) {
             log.error("配置文件加载出错:[{}]", e.getMessage(), e);
         }

@@ -14,6 +14,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.assertj.core.util.Lists;
+import us.codecraft.webmagic.SimpleHttpClient;
 import us.codecraft.webmagic.proxy.Proxy;
 
 import java.io.IOException;
@@ -132,7 +133,7 @@ public final class DynamicIpsUtils {
     /**
      * 获取代理IP列表接口地址
      */
-    private static final String DYNAMIC_IPS_URL = PropertiesUtils.getProperty("dynamic.ips.url");
+    private static final String DYNAMIC_IPS_URL = SpiderPropertiesUtils.getProperty("dynamic.ips.url");
 
     /**
      * 测试代理IP是否可用接口地址
@@ -142,22 +143,26 @@ public final class DynamicIpsUtils {
     /**
      * 代理服务器用户名
      */
-    private static final String USER_NAME = PropertiesUtils.getProperty("dynamic.ips.username");
+    private static final String USER_NAME = SpiderPropertiesUtils.getProperty("dynamic.ips.username");
 
     /**
      * 代理服务器密码
      */
-    private static final String PASSWORD = PropertiesUtils.getProperty("dynamic.ips.password");
+    private static final String PASSWORD = SpiderPropertiesUtils.getProperty("dynamic.ips.password");
 
     private DynamicIpsUtils() {
     }
 
     /**
-     * 动态获取Ip列表，List永远不会为null，但size可能为0
+     * 动态获取Ip列表，会检测IP可用性，不可用的IP不会放入List，
+     * List永远不会为null，但size可能为0
      *
      * @return 返回Proxy列表
+     * @see SimpleHttpClient
+     * WebMagic封装的HttpClient简单实现，使用更加简单
      */
     public static List<Proxy> getIps() {
+        //Proxy列表 封装代理服务器IP和端口
         List<Proxy> proxyList = Lists.newArrayList();
         // 获得Http客户端
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -202,6 +207,8 @@ public final class DynamicIpsUtils {
                     continue;
                 } finally {
                     if (testResponse != null) {
+                        //确保连接能被复用
+                        EntityUtils.consumeQuietly(testResponse.getEntity());
                         testResponse.close();
                     }
                 }
