@@ -3,6 +3,7 @@ package com.zh.spider.videodetail.service;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.zh.spider.videodetail.entity.Constants;
 import com.zh.spider.videodetail.entity.VideoDetails;
+import com.zh.spider.videodetail.utils.VideoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -172,15 +173,25 @@ public class JobInfoProcessorNewService implements PageProcessor {
          */
         String commentCount = json.jsonPath("$.data.stat.reply").get();
         /**
-         * 视频分类ID  详细分类
+         * 视频分类ID 父分类ID
          */
-        //TODO 待定,需要改成粗分类
         String videoTypeId = json.jsonPath("$.data.tid").get();
-        /**
-         * 视频分类名字
-         */
-        String videoTypeName = json.jsonPath("$.data.tname").get();
 
+        /**
+         * 视频分类名字  详细分类名称(子分类名称)
+         */
+        //String videoTypeName = json.jsonPath("$.data.tname").get();
+
+        //===========start===改成粗分类===start===========
+        /**
+         * 视频分类名字  父分类名称
+         */
+        String videoTypeName = VideoUtils.getVideoTypeNameByID(videoTypeId);
+        //如果不存在就用子分类名称填充
+        if (StringUtils.isBlank(videoTypeName)) {
+            videoTypeName = json.jsonPath("$.data.tname").get();
+        }
+        //===========end===改成粗分类===end================
         VideoDetails videoDetails = new VideoDetails();
         videoDetails.setVideoAid(videoAid);
         videoDetails.setVideoName(videoName);

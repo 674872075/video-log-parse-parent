@@ -25,7 +25,7 @@ public class Constants {
             "https://s.search.bilibili.com/cate/search?callback=callback&main_ver=v3&search_type=video&view_type=hot_rank&order=click&copy_right=-1&cate_id=199&jsonp=jsonp&_=1582032132311&time_from=20200401&time_to=20200430&pagesize=100",
             //游戏--单机游戏
             "https://s.search.bilibili.com/cate/search?callback=callback&main_ver=v3&search_type=video&view_type=hot_rank&order=click&copy_right=-1&cate_id=17&jsonp=jsonp&_=1582032132311&time_from=20200401&time_to=20200430&pagesize=100",
-            //科普--趣味科普人文
+            //科技--趣味科普人文
             "https://s.search.bilibili.com/cate/search?callback=callback&main_ver=v3&search_type=video&view_type=hot_rank&order=click&copy_right=-1&cate_id=124&jsonp=jsonp&_=1582032132311&time_from=20200401&time_to=20200430&pagesize=100",
             //数码--手机平板
             "https://s.search.bilibili.com/cate/search?callback=callback&main_ver=v3&search_type=video&view_type=hot_rank&order=click&copy_right=-1&cate_id=95&jsonp=jsonp&_=1582032132311&time_from=20200401&time_to=20200430&pagesize=100",
