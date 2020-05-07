@@ -221,6 +221,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
             .setSleepTime(3000) //url之间的爬取间隔时间
             .setTimeOut(10000)//超时时间 毫秒
             .setRetrySleepTime(3000)//重试间隔时间 毫秒
+            .setCycleRetryTimes(3) //循环重试次数  防止网络原因导致的下载失败
             .setRetryTimes(3);//重试次数
 
     @Override
