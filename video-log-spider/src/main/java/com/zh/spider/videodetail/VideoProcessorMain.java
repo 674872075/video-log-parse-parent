@@ -54,7 +54,7 @@ public class VideoProcessorMain {
             spider.addRequest(request);
         }
         //获取代理Ip池
-        List<Proxy> proxyList = DynamicIpsUtils.getIps();
+        List<Proxy> proxyList = DynamicIpsUtils.getIpsWithRetry(3);
 
         //如果代理IP池列表不为空则使用代理IP池，为空则使用本机IP爬取
         if (CollectionUtils.isNotEmpty(proxyList)) {

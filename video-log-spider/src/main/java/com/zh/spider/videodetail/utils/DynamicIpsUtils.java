@@ -3,6 +3,7 @@ package com.zh.spider.videodetail.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.ParseException;
@@ -244,4 +245,21 @@ public final class DynamicIpsUtils {
         return proxyList;
     }
 
+    /**
+     * 动态获取Ip列表，会检测IP可用性，不可用的IP不会放入List，
+     * List永远不会为null，但size可能为0
+     *
+     * @param retryTimes 失败后的重试次数
+     * @return 返回Proxy列表
+     * @see SimpleHttpClient
+     * WebMagic封装的HttpClient简单实现，使用更加简单
+     */
+    public static List<Proxy> getIpsWithRetry(int retryTimes) {
+        List<Proxy> ips = getIps();
+        while (CollectionUtils.isEmpty(ips) && retryTimes > 0) {
+            ips = getIps();
+            retryTimes--;
+        }
+        return ips;
+    }
 }
