@@ -8,7 +8,6 @@ import com.zh.spider.videodetail.utils.DynamicIpsUtils;
 import com.zh.spider.videodetail.utils.SpiderPropertiesUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.proxy.Proxy;
@@ -33,6 +32,7 @@ public class VideoProcessorMain {
         }
         Spider spider = Spider.create(new JobInfoProcessorNewService())
                 .addPipeline(new FileDateNewPipeline(args[0]))
+                .addUrl(Constants.VIDEO_CATEGORY_URL)
                 .thread(14);
 
         String enableUrlFileCache = SpiderPropertiesUtils.getProperty("EnableUrlFileCache");
@@ -47,12 +47,6 @@ public class VideoProcessorMain {
             spider.setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(100000)));
         }
 
-        for (String videoCategoryUrl : Constants.VIDEO_CATEGORY_URL) {
-            Request request = new Request(videoCategoryUrl);
-            //添加浏览器标识  可一定程度上减少触发反爬机制
-            request.addHeader("user-agent", Constants.USER_AGENT);
-            spider.addRequest(request);
-        }
         //获取代理Ip池
         List<Proxy> proxyList = DynamicIpsUtils.getIpsWithRetry(3);
 

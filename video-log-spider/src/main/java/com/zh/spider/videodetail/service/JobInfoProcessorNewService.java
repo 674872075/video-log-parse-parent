@@ -216,6 +216,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
     //爬虫配置
     private Site site = Site.me()
             .setDomain("bilibili.com")//设置域名，需设置域名后，addCookie才可生效
+            .setUserAgent(Constants.USER_AGENT)  //添加浏览器标识  可一定程度上减少触发反爬机制
             .setCharset("utf-8") //按照哪种字符集进行读取
             .setSleepTime(3000) //url之间的爬取间隔时间
             .setTimeOut(10000)//超时时间 毫秒
