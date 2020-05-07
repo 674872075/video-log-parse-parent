@@ -135,6 +135,11 @@ public final class DynamicIpsUtils {
      */
     private static final String DYNAMIC_IPS_URL = SpiderPropertiesUtils.getProperty("dynamic.ips.url");
 
+    /*
+     *代理IP获取数量
+     */
+    private static final String DYNAMIC_IPS_COUNT = SpiderPropertiesUtils.getProperty("dynamic.ips.count");
+
     /**
      * 测试代理IP是否可用接口地址
      */
@@ -174,7 +179,7 @@ public final class DynamicIpsUtils {
 
 
         // 创建Get请求
-        HttpGet httpGet = new HttpGet(DYNAMIC_IPS_URL);
+        HttpGet httpGet = new HttpGet(DYNAMIC_IPS_URL + DYNAMIC_IPS_COUNT);
         HttpGet testHttpGet = new HttpGet(TEST_ADDR);
         // 响应模型
         CloseableHttpResponse response = null;

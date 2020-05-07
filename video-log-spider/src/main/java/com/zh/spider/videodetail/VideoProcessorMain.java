@@ -2,6 +2,7 @@ package com.zh.spider.videodetail;
 
 import com.zh.spider.videodetail.entity.Constants;
 import com.zh.spider.videodetail.pipeline.FileDateNewPipeline;
+import com.zh.spider.videodetail.proxyprovider.DynamicProxyProvider;
 import com.zh.spider.videodetail.service.JobInfoProcessorNewService;
 import com.zh.spider.videodetail.utils.DynamicIpsUtils;
 import com.zh.spider.videodetail.utils.SpiderPropertiesUtils;
@@ -11,7 +12,6 @@ import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.proxy.Proxy;
-import us.codecraft.webmagic.proxy.SimpleProxyProvider;
 import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
 import us.codecraft.webmagic.scheduler.FileCacheQueueScheduler;
 import us.codecraft.webmagic.scheduler.QueueScheduler;
@@ -59,7 +59,7 @@ public class VideoProcessorMain {
         //如果代理IP池列表不为空则使用代理IP池，为空则使用本机IP爬取
         if (CollectionUtils.isNotEmpty(proxyList)) {
             HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
-            httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(proxyList.toArray(new Proxy[0])));
+            httpClientDownloader.setProxyProvider(DynamicProxyProvider.from(proxyList.toArray(new Proxy[0])));
             //设置代理IP池
             spider.setDownloader(httpClientDownloader);
         }
