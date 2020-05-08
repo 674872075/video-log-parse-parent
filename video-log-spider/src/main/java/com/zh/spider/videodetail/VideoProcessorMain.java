@@ -33,7 +33,7 @@ public class VideoProcessorMain {
         Spider spider = Spider.create(new JobInfoProcessorNewService())
                 .addPipeline(new FileDateNewPipeline(args[0]))
                 .addUrl(Constants.VIDEO_CATEGORY_URL)
-                .thread(14);
+                .thread(100);
 
         String enableUrlFileCache = SpiderPropertiesUtils.getProperty("EnableUrlFileCache");
         String urlFileCachePath = SpiderPropertiesUtils.getProperty("urlFileCachePath");
