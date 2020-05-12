@@ -2,6 +2,7 @@ package com.zh.spider.videodetail;
 
 import com.zh.spider.videodetail.entity.Constants;
 import com.zh.spider.videodetail.pipeline.FileDateNewPipeline;
+import com.zh.spider.videodetail.pipeline.KafkaPipeline;
 import com.zh.spider.videodetail.proxyprovider.DynamicProxyProvider;
 import com.zh.spider.videodetail.service.JobInfoProcessorNewService;
 import com.zh.spider.videodetail.utils.DynamicIpsUtils;
@@ -32,8 +33,14 @@ public class VideoProcessorMain {
         }
         Spider spider = Spider.create(new JobInfoProcessorNewService())
                 .addPipeline(new FileDateNewPipeline(args[0]))
+                //.addPipeline(new KafkaPipeline("video_log"))
                 .addUrl(Constants.VIDEO_CATEGORY_URL)
-                .thread(100);
+                .thread(5);
+
+ /*       HttpClientDownloader httpClientDownloader1 = new HttpClientDownloader();
+        httpClientDownloader1.setProxyProvider(SimpleProxyProvider.from(new Proxy("125.104.229.203",40884)));
+        //设置代理IP池
+        spider.setDownloader(httpClientDownloader1);*/
 
         String enableUrlFileCache = SpiderPropertiesUtils.getProperty("EnableUrlFileCache");
         String urlFileCachePath = SpiderPropertiesUtils.getProperty("urlFileCachePath");
