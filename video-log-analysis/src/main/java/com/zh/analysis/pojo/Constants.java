@@ -6,7 +6,7 @@ package com.zh.analysis.pojo;
  * @date 2020/2/20 11:59
  * @Description
  */
-public class Constants {
+public final class Constants {
 
     private Constants(){}
 

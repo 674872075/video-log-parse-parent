@@ -1,7 +1,9 @@
 package com.zh.analysis.pojo;
 
 
-public class Fileds {
+public final class Fileds {
+
+    private Fileds(){}
 
     /**
      * 视频Id
