@@ -232,11 +232,12 @@ public final class DynamicIpsUtils {
         } finally {
             try {
                 // 释放资源
-                if (httpClient != null) {
-                    httpClient.close();
-                }
                 if (response != null) {
                     response.close();
+                }
+
+                if (httpClient != null) {
+                    httpClient.close();
                 }
             } catch (IOException e) {
                 log.error("获取动态IP时出错，错误信息: [{}]", e.getMessage(), e);
