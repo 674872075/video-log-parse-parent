@@ -40,7 +40,7 @@ import java.util.Map;
 
 
 /**
- * @description: http https工具类
+ * @description: http https工具类 inputstream没有关闭
  * @author: zhouhao
  **/
 public class HttpUtils {
