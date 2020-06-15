@@ -41,8 +41,7 @@ import java.util.Map;
 
 /**
  * @description: http https工具类
- * @author: java5678
- * @create: 2019-06-03 11:19
+ * @author: zhouhao
  **/
 public class HttpUtils {
     private static final Logger log = LoggerFactory.getLogger(HttpUtils.class);

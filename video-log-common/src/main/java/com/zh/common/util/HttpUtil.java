@@ -7,10 +7,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 /**
- * @program: ssm
- * @description:
- * @author: java5678
- **/
+ * HttpClient封装工具类
+ * @author zhouhao
+ */
 public class HttpUtil {
 
     //创建连接池管理对象
