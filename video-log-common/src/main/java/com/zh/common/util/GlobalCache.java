@@ -3,7 +3,10 @@ package com.zh.common.util;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Httpclient 全局请求头、依赖参数设置
+ * @author zhouhao
+ */
 public class GlobalCache {
 
 

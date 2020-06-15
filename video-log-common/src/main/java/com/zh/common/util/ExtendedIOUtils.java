@@ -8,7 +8,6 @@ import java.io.IOException;
 
 /**
  * IO流拓展工具类，补充IOUtils新版本中废弃的closeQuietly
- *
  * @author King
  * @since 2018/12/27 17:56
  */

@@ -4,9 +4,8 @@ package com.zh.common.util;
 import org.apache.http.client.methods.CloseableHttpResponse;
 
 /**
- * @description:
- * @author: java5678
- * @create: 2019-08-08 13:30
+ * @description: HttpClient响应内容封装
+ * @author: zhouhao
  **/
 public class ResponeVo {
 
