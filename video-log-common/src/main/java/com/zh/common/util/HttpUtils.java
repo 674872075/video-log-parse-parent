@@ -83,14 +83,14 @@ public class HttpUtils {
     private static CloseableHttpClient getHttpClient(String url) {
         CloseableHttpClient httpClient = null;
         try {
-            if(url.startsWith(HTTPS)){
+            if (url.startsWith(HTTPS)) {
                 //创建一个SSL信任所有证书的httpClient对象
                 httpClient = createSSLInsecureClient();
-            }else {
+            } else {
                 httpClient = HttpClients.createDefault();
             }
         } catch (Exception e) {
-            log.error("请求client 初始化失败 请检查地址是否正确,url=" + url + " error" + e);
+            log.error("请求client 初始化失败 请检查地址是否正确,url= [{}] errorMsg= [{}]", url, e.getMessage(), e);
             throw new RuntimeException(e);
         }
         return httpClient;
@@ -184,14 +184,14 @@ public class HttpUtils {
                     for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
                         params.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
                     }
-                    httpPost.setEntity(new UrlEncodedFormEntity(params,DEFAULT_ENCODING));
+                    httpPost.setEntity(new UrlEncodedFormEntity(params, DEFAULT_ENCODING));
                 }
             }
             if ("application/json;charset=UTF-8".equals(contentType)) {
                 httpPost.setEntity(new StringEntity(jsonParams, ContentType.create("application/json", DEFAULT_ENCODING)));
             }
-        }else{
-          log.error("请求头为空");
+        } else {
+            log.error("请求头为空");
         }
         return baseRequest(httpClient, httpPost);
     }
@@ -228,7 +228,7 @@ public class HttpUtils {
      */
     public static ResponeVo put(String url, String jsonParams) throws IOException, NoSuchAlgorithmException,
             KeyStoreException, KeyManagementException {
-        log.info("----->调用请求 url:" + url + " ---->json参数:" + jsonParams);
+        log.info("----->调用请求 url: [{}] ---->json参数: [{}]", url, jsonParams);
         CloseableHttpClient httpClient = null;
         String content;
         httpClient = getHttpClient(url);
@@ -252,13 +252,13 @@ public class HttpUtils {
                     for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
                         params.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
                     }
-                    httpPut.setEntity(new UrlEncodedFormEntity(params,DEFAULT_ENCODING));
+                    httpPut.setEntity(new UrlEncodedFormEntity(params, DEFAULT_ENCODING));
                 }
             }
             if ("application/json;charset=UTF-8".equals(contentType)) {
                 httpPut.setEntity(new StringEntity(jsonParams, ContentType.create("application/json", DEFAULT_ENCODING)));
             }
-        }else{
+        } else {
             log.error("请求头为空");
         }
         return baseRequest(httpClient, httpPut);
@@ -294,7 +294,7 @@ public class HttpUtils {
             httpClient = HttpClients.custom().setConnectionManager(connManager).build();
             //创建post方式请求对象
             HttpPost httpPost = new HttpPost(url);
-            httpPost.setEntity(new UrlEncodedFormEntity(params,DEFAULT_ENCODING));
+            httpPost.setEntity(new UrlEncodedFormEntity(params, DEFAULT_ENCODING));
             //指定报文头Content-type、User-Agent
             httpPost.setHeader("Content-type", "application/x-www-form-urlencoded");
             //执行请求操作，并拿到结果（同步阻塞）
@@ -326,7 +326,7 @@ public class HttpUtils {
     public static CloseableHttpClient createSSLInsecureClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         // 默认信任所有证书
         HostnameVerifier hostnameVerifier = (hostname, session) -> true;
-        SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null,(chain, authType) -> true).build();
+        SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, (chain, authType) -> true).build();
         SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext, hostnameVerifier);
         return HttpClients.custom().setSSLSocketFactory(sslConnectionSocketFactory).build();
     }
@@ -388,9 +388,9 @@ public class HttpUtils {
             responeVo.setCode(response.getStatusLine().getStatusCode());
             responeVo.setContent(content);
             responeVo.setResponse(response);
-            log.info("http调用完成,返回数据" + content);
+            log.info("http调用完成,返回数据: [{}]", content);
         } catch (Exception e) {
-            log.error(" http调用失败:" + e);
+            log.error(" http调用失败: [{}]", e.getMessage(), e);
         }
         ExtendedIOUtils.closeQuietly(httpClient);
         ExtendedIOUtils.closeQuietly(response);
