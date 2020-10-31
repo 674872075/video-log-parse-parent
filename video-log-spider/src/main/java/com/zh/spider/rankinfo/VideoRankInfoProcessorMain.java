@@ -6,8 +6,6 @@ import com.zh.spider.rankinfo.service.JobProcessorService;
 import com.zh.spider.videodetail.utils.SpiderPropertiesUtils;
 import us.codecraft.webmagic.Spider;
 
-import java.util.Arrays;
-
 
 /**
  * @author zhouhao
@@ -26,7 +24,7 @@ public class VideoRankInfoProcessorMain {
         //HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
         //设置代理服务器
         //httpClientDownloader.setProxyProvider(SimpleProxSystemyProvider.from(new Proxy("39.137.69.8",8080)));
-        String[] urls = Arrays.copyOf(Constants.VIDEO_ALL_DAY_RANKING_URL,
+        /*String[] urls = Arrays.copyOf(Constants.VIDEO_ALL_DAY_RANKING_URL,
                 Constants.VIDEO_ALL_DAY_RANKING_URL.length
                         + Constants.VIDEO_ALL_WEEK_RANKING_URL.length
                         + Constants.VIDEO_ALL_MONTH_RANKING_URL.length);
@@ -37,12 +35,13 @@ public class VideoRankInfoProcessorMain {
 
         System.arraycopy(Constants.VIDEO_ALL_MONTH_RANKING_URL, 0, urls,
                 Constants.VIDEO_ALL_DAY_RANKING_URL.length + Constants.VIDEO_ALL_WEEK_RANKING_URL.length
-                , Constants.VIDEO_ALL_MONTH_RANKING_URL.length);
+                , Constants.VIDEO_ALL_MONTH_RANKING_URL.length);*/
 
         Spider.create(new JobProcessorService())
                 //.addUrl("http://ip.chinaz.com/")
                 // .setDownloader(httpClientDownloader)
-                .addUrl(urls)
+                //.addUrl(urls)
+                .addUrl(Constants.VIDEO_ALL_URL)
                 .addPipeline(new FileDatePipeline(args[0]))
                 //.addPipeline(new KafkaPipeline(args[0]))
                 .thread(25)

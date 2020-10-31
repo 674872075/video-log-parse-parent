@@ -54,6 +54,7 @@ public class VideoInfo implements Serializable {
      * 0--全部投稿
      * 1--近期投稿
      */
+    @Deprecated
     private String publishDate;
 
     /**
@@ -63,6 +64,7 @@ public class VideoInfo implements Serializable {
      * 7--周排行
      * 30--月排行
      */
+    @Deprecated
     private String rankingType;
 
     @Override
@@ -73,9 +75,7 @@ public class VideoInfo implements Serializable {
                         playCount + '\001' +
                         commentCount + '\001' +
                         videoAuthor + '\001' +
-                        compositeScore + '\001' +
-                        videoTypeId + '\001' +
-                        publishDate + '\001' +
-                        rankingType;
+                        compositeScore + '\001'+
+                        videoTypeId;
     }
 }

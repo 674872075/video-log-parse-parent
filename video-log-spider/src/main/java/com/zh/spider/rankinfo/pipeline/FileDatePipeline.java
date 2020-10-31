@@ -51,13 +51,13 @@ public class FileDatePipeline implements Pipeline {
             bw =new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path
                     +"access.log."
                     +nowStr
-                    +"_0" //追加到一个文件里面
-                    //+info.getVideoTypeId()  //根据分类存放到不同的文件
-                    +"_"
+                    +"_0_" //追加到一个文件里面
+                    +info.getVideoTypeId()  //根据分类存放到不同的文件
+                   /* +"_"
                     +info.getPublishDate()
                     +"_"
-                    +info.getRankingType()
-                    ,true), "utf-8"));
+                    +info.getRankingType()*/
+                    ), "utf-8"));
             for (VideoInfo videoInfo : videoInfos) {
                 bw.write(videoInfo.toString());
                 bw.newLine();

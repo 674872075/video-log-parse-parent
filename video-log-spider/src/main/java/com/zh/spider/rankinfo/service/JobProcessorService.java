@@ -9,7 +9,6 @@ import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Selectable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -57,18 +56,18 @@ public class JobProcessorService implements PageProcessor {
             videoInfo.setVideoAuthor(videoAuthor);
             videoInfo.setCompositeScore(compositeScore);
 
-            String[] typeNumbers = MathUtils.getTypeNumber(page.getUrl().toString());
+            String type = MathUtils.getType(page.getUrl().toString());
             //设置频道分类ID
-            videoInfo.setVideoTypeId(typeNumbers[0]);
+            videoInfo.setVideoTypeId(type);
             //设置发布日期
-            videoInfo.setPublishDate(typeNumbers[1]);
+             /*videoInfo.setPublishDate(typeNumbers[1]);
             //设置排行榜类型
-            videoInfo.setRankingType(typeNumbers[2]);
+            videoInfo.setRankingType(typeNumbers[2]);*/
             //添加进列表中
             videoInfos.add(videoInfo);
         }
         //乱序洗牌
-        Collections.shuffle(videoInfos);
+        //Collections.shuffle(videoInfos);
         page.putField("videoInfos", videoInfos);
        /* String ip = page.getHtml().css("dd.fz24","text").get();
         log.info("ip地址:[{}]",ip);*/
