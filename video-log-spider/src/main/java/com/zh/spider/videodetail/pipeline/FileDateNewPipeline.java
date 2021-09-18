@@ -27,6 +27,8 @@ public class FileDateNewPipeline implements Pipeline {
 
     private static final String PATH_SEPERATOR = "/";
 
+    private static final String SUFFIX = ".txt";
+
     private String path;
 
     public FileDateNewPipeline(String path) {
@@ -42,7 +44,7 @@ public class FileDateNewPipeline implements Pipeline {
         }
         String nowStr = DateUtil.format(LocalDateTime.now(), DatePattern.NORM_DATE_PATTERN);
         try {
-            Files.write(Paths.get(this.path + PATH_SEPERATOR + "access.log." + nowStr),
+            Files.write(Paths.get(this.path + PATH_SEPERATOR + "access.log." + nowStr + SUFFIX),
                     Lists.newArrayList(videoDetails.toString()),
                     StandardOpenOption.CREATE,StandardOpenOption.APPEND);
         } catch (Exception e) {
