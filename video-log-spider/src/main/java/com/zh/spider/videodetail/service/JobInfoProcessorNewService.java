@@ -1,11 +1,13 @@
 package com.zh.spider.videodetail.service;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.StrUtil;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.zh.spider.videodetail.entity.Constants;
 import com.zh.spider.videodetail.entity.VideoDetails;
 import com.zh.spider.videodetail.utils.VideoUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
@@ -48,8 +50,8 @@ public class JobInfoProcessorNewService implements PageProcessor {
         try {
             //列表页
             List<Selectable> resultNodes = page.getJson().removePadding("callback").jsonPath("$.result[*]").nodes();
-            if (CollectionUtils.isNotEmpty(resultNodes)) {
-                for (Selectable resultNode : resultNodes) {
+            if (CollUtil.isNotEmpty(resultNodes)) {
+                resultNodes.forEach(resultNode -> {
                     Json resultJson = new Json(resultNode.get());
                     String rankScore = resultJson.jsonPath("$.rank_score").get();
                     String arcurl = resultJson.jsonPath("$.arcurl").get();
@@ -70,12 +72,13 @@ public class JobInfoProcessorNewService implements PageProcessor {
                         request.setExtras(map);
                         page.addTargetRequest(request);
                     }
-                }
-                //消除jsonp填充内容
-                String numPages = page.getJson().removePadding("callback").jsonPath("$.numPages").get();
+                });
+                //消除jsonp填充内容 总页数
+                String totalPage = page.getJson().removePadding("callback").jsonPath("$.numPages").get();
+                //当前页
                 String curPage = page.getJson().removePadding("callback").jsonPath("$.page").get();
-                int cur_page = Integer.parseInt(curPage);
-                if (cur_page < Integer.parseInt(numPages)) {
+                int cur_page = NumberUtil.parseInt(curPage);
+                if (cur_page < NumberUtil.parseInt(totalPage)) {
                     //翻页
                     cur_page++;
                     String pageListUrl = page.getRequest().getUrl();
@@ -83,7 +86,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
                     //防止由于不断追加新的&page=导致的url过长
                     if (index > -1) {
                         //舍去&page=
-                        pageListUrl = pageListUrl.substring(0, index);
+                        pageListUrl = StrUtil.sub(pageListUrl,0,index);
                     }
                     pageListUrl = pageListUrl + "&page=" + cur_page;
                     //添加到Scheduler队列继续发送请求
@@ -98,9 +101,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
             //详情页
             getVideodetails(page);
         } catch (Exception e) {
-            if (log.isErrorEnabled()) {
-                log.error("爬取数据出错：{}", e.getMessage(), e);
-            }
+            log.error("爬取数据出错：{}", e.getMessage(), e);
         }
     }
 
@@ -110,7 +111,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
     private void getVideodetails(Page page) {
         Json json = page.getJson();
         String code = json.jsonPath("$.code").get();
-        if (!code.equals("0")) {
+        if (!StrUtil.equals("0",code)) {
             String message = json.jsonPath("$.message").get();
             if (log.isErrorEnabled()) {
                 log.error("爬取视频详情时出错,错误信息: [{}],视频地址:[{}]", message, page.getRequest().getUrl());
@@ -127,7 +128,8 @@ public class JobInfoProcessorNewService implements PageProcessor {
          * 例如:2020-02-12 22:00:15
          */
         //String publishDate = json.jsonPath("$.data.pubdate").get();
-        String publishDate = (String) Optional.ofNullable(page.getRequest().getExtra("pubdate")).orElse("");
+        String publishDate = Optional.ofNullable((String)page.getRequest().getExtra("pubdate"))
+                .orElse(StrUtil.EMPTY);
         /**
          * 博主ID
          */
@@ -139,11 +141,13 @@ public class JobInfoProcessorNewService implements PageProcessor {
         /**
          * 视频地址
          */
-        String videoUrl = (String) Optional.ofNullable(page.getRequest().getExtra("videoUrl")).orElse("");
+        String videoUrl =  Optional.ofNullable((String)page.getRequest().getExtra("videoUrl"))
+                .orElse(StrUtil.EMPTY);
         /**
          * 综合得分
          */
-        String rankScore = (String) Optional.ofNullable(page.getRequest().getExtra("rankScore")).orElse("");
+        String rankScore = Optional.ofNullable((String)page.getRequest().getExtra("rankScore"))
+                .orElse(StrUtil.EMPTY);
         /**
          * 播放量
          */
@@ -188,27 +192,27 @@ public class JobInfoProcessorNewService implements PageProcessor {
          */
         String videoTypeName = VideoUtils.getVideoTypeNameByID(videoTypeId);
         //如果不存在就用子分类名称填充
-        if (StringUtils.isBlank(videoTypeName)) {
+        if (StrUtil.isBlank(videoTypeName)) {
             videoTypeName = json.jsonPath("$.data.tname").get();
         }
         //===========end===改成粗分类===end================
         VideoDetails videoDetails = new VideoDetails();
-        videoDetails.setVideoAid(videoAid);
-        videoDetails.setVideoName(videoName);
-        videoDetails.setVideoUrl(videoUrl);
-        videoDetails.setPlayCount(playCount);
-        videoDetails.setDanmakuCount(danmakuCount);
-        videoDetails.setCommentCount(commentCount);
-        videoDetails.setVideoAuthor(videoAuthor);
-        videoDetails.setVideoAuthorMid(videoAuthorMid);
-        videoDetails.setVideoLikeCount(videoLikeCount);
-        videoDetails.setVideoCoinCount(videoCoinCount);
-        videoDetails.setVideoCollectCount(videoCollectCount);
-        videoDetails.setVideoShareCount(videoShareCount);
-        videoDetails.setRankScore(rankScore);
-        videoDetails.setPublishDate(publishDate);
-        videoDetails.setVideoTypeId(videoTypeId);
-        videoDetails.setVideoTypeName(videoTypeName);
+        videoDetails.setVideoAid(StrUtil.trimToEmpty(videoAid));
+        videoDetails.setVideoName(StrUtil.trimToEmpty(videoName));
+        videoDetails.setVideoUrl(StrUtil.trimToEmpty(videoUrl));
+        videoDetails.setPlayCount(StrUtil.trimToEmpty(playCount));
+        videoDetails.setDanmakuCount(StrUtil.trimToEmpty(danmakuCount));
+        videoDetails.setCommentCount(StrUtil.trimToEmpty(commentCount));
+        videoDetails.setVideoAuthor(StrUtil.trimToEmpty(videoAuthor));
+        videoDetails.setVideoAuthorMid(StrUtil.trimToEmpty(videoAuthorMid));
+        videoDetails.setVideoLikeCount(StrUtil.trimToEmpty(videoLikeCount));
+        videoDetails.setVideoCoinCount(StrUtil.trimToEmpty(videoCoinCount));
+        videoDetails.setVideoCollectCount(StrUtil.trimToEmpty(videoCollectCount));
+        videoDetails.setVideoShareCount(StrUtil.trimToEmpty(videoShareCount));
+        videoDetails.setRankScore(StrUtil.trimToEmpty(rankScore));
+        videoDetails.setPublishDate(StrUtil.trimToEmpty(publishDate));
+        videoDetails.setVideoTypeId(StrUtil.trimToEmpty(videoTypeId));
+        videoDetails.setVideoTypeName(StrUtil.trimToEmpty(videoTypeName));
         //添加到resultItems
         page.putField("videoDetails", videoDetails);
     }
@@ -218,7 +222,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
             .setDomain("bilibili.com")//设置域名，需设置域名后，addCookie才可生效
             .setUserAgent(Constants.USER_AGENT)  //添加浏览器标识  可一定程度上减少触发反爬机制
             .setCharset("utf-8") //按照哪种字符集进行读取
-            .setSleepTime(3000) //url之间的爬取间隔时间
+            .setSleepTime(1000) //url之间的爬取间隔时间
             .setTimeOut(10000)//超时时间 毫秒
             .setRetrySleepTime(3000)//重试间隔时间 毫秒
             .setCycleRetryTimes(3) //循环重试次数  防止网络原因导致的下载失败
