@@ -82,7 +82,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
                     //翻页
                     cur_page++;
                     String pageListUrl = page.getRequest().getUrl();
-                    int index = pageListUrl.lastIndexOf("&page=");
+                    int index = StrUtil.lastIndexOfIgnoreCase(pageListUrl,"&page=");
                     //防止由于不断追加新的&page=导致的url过长
                     if (index > -1) {
                         //舍去&page=
