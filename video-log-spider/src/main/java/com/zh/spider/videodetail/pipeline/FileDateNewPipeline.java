@@ -1,15 +1,18 @@
 package com.zh.spider.videodetail.pipeline;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
+import com.google.common.collect.Lists;
 import com.zh.spider.videodetail.entity.VideoDetails;
 import lombok.extern.slf4j.Slf4j;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
-
-import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
 
@@ -37,24 +40,13 @@ public class FileDateNewPipeline implements Pipeline {
         if (Objects.isNull(videoDetails)) {
             return;
         }
-        String path = this.path + PATH_SEPERATOR;
-        File file = new File(path);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-        LocalDateTime now = LocalDateTime.now();
-        String nowStr = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path
-                + "access.log."
-                + nowStr
-                , true), "utf-8"))) {
-            bw.write(videoDetails.toString());
-            bw.newLine();
-            bw.flush();
+        String nowStr = DateUtil.format(LocalDateTime.now(), DatePattern.NORM_DATE_PATTERN);
+        try {
+            Files.write(Paths.get(this.path + PATH_SEPERATOR + "access.log." + nowStr),
+                    Lists.newArrayList(videoDetails.toString()),
+                    StandardOpenOption.CREATE,StandardOpenOption.APPEND);
         } catch (Exception e) {
-            if (log.isErrorEnabled()) {
-                log.error("文件写入错误: [{}]", e.getMessage(), e);
-            }
+            log.error("文件写入错误: [{}]", e.getMessage(), e);
         }
     }
 
