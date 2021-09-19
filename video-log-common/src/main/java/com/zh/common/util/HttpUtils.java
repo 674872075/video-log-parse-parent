@@ -18,6 +18,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContexts;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -33,10 +34,7 @@ import java.io.InputStreamReader;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -384,16 +382,18 @@ public class HttpUtils {
         try {
             String content;
             response = httpClient.execute(request);
-            content = inputStreamToString(response.getEntity().getContent());
+           // content = inputStreamToString(response.getEntity().getContent());
+            content = EntityUtils.toString(response.getEntity());
             responeVo.setCode(response.getStatusLine().getStatusCode());
             responeVo.setContent(content);
             responeVo.setResponse(response);
             log.info("http调用完成,返回数据: [{}]", content);
         } catch (Exception e) {
             log.error(" http调用失败: [{}]", e.getMessage(), e);
+        }finally {
+            ExtendedIOUtils.closeQuietly(response);
+            ExtendedIOUtils.closeQuietly(httpClient);
         }
-        ExtendedIOUtils.closeQuietly(httpClient);
-        ExtendedIOUtils.closeQuietly(response);
         return responeVo;
     }
 

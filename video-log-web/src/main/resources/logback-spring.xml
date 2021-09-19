@@ -2,7 +2,7 @@
 
 <configuration>
     <!--定义日志文件的存储地址,使用绝对路径-->
-    <property name="LOG_HOME" value="F:/space/video-log-parse-parent/video-log-web/logs"/>
+    <property name="LOG_HOME" value="${user.dir}/logs/video-log-web"/>
 
     <!-- Console 输出设置 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -18,13 +18,40 @@
         <file>
             ${LOG_HOME}/video_log.log
         </file>
+        <!--按大小滚动 1024M 和按天滚动-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
-            <fileNamePattern>${LOG_HOME}/video_log.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_HOME}/video_log.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1024MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory><!--最多保留30天-->
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
+    </appender>
+
+    <!-- 按照每天生成日志文件 -->
+    <appender name="ERRO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>
+            ${LOG_HOME}/mybatis_plus_generator_erro_log.log
+        </file>
+        <!--按大小滚动和按天滚动-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <fileNamePattern>${LOG_HOME}/mybatis_plus_generator_erro_log.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1024MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory><!--最多保留30天-->
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
     </appender>
 
     <!-- 异步输出 -->
@@ -48,6 +75,7 @@
     <root level="info">
         <!--<appender-ref ref="ASYNC"/>-->
         <appender-ref ref="FILE"/>
+        <appender-ref ref="ERRO_FILE"/>
         <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>
