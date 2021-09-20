@@ -8,7 +8,6 @@ import com.zh.spider.videodetail.entity.Constants;
 import com.zh.spider.videodetail.entity.VideoDetails;
 import com.zh.spider.videodetail.utils.VideoUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
@@ -58,7 +57,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
                     String pubdate = resultJson.jsonPath("$.pubdate").get();
                     String aid = resultJson.jsonPath("$.id").get();
                     //防止aid不存在
-                    if (StringUtils.isNotBlank(aid)) {
+                    if (StrUtil.isNotBlank(aid)) {
                         Map<String, Object> map = new HashMap<>();
                         map.put("videoUrl", arcurl);
                         map.put("rankScore", rankScore);
