@@ -1,5 +1,6 @@
 package com.zh.spider.videodetail.utils;
 
+import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.SimpleHttpClient;
 import us.codecraft.webmagic.proxy.Proxy;
 
@@ -169,7 +169,7 @@ public final class DynamicIpsUtils {
      */
     public static List<Proxy> getIps() {
         //Proxy列表 封装代理服务器IP和端口
-        List<Proxy> proxyList = Lists.newArrayList();
+        List<Proxy> proxyList = CollUtil.newArrayList();
         // 获得Http客户端
         CloseableHttpClient httpClient = HttpClients.createDefault();
 

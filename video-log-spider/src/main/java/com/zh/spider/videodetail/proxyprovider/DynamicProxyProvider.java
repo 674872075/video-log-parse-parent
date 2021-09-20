@@ -1,7 +1,7 @@
 package com.zh.spider.videodetail.proxyprovider;
 
+import cn.hutool.core.collection.CollUtil;
 import com.zh.spider.videodetail.utils.DynamicIpsUtils;
-import org.apache.commons.collections.CollectionUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.proxy.Proxy;
@@ -58,7 +58,7 @@ public class DynamicProxyProvider implements ProxyProvider {
             return p;
         }
         List<Proxy> ips = DynamicIpsUtils.getIps();
-        if (CollectionUtils.isNotEmpty(ips)) {
+        if (CollUtil.isNotEmpty(ips)) {
             proxies = ips;
             while (!pointer.compareAndSet(p, START_INDEX)) {
                 p = pointer.get();
