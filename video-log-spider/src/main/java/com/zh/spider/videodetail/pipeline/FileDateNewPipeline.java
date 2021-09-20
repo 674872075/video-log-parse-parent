@@ -2,6 +2,7 @@ package com.zh.spider.videodetail.pipeline;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.FileUtil;
 import com.google.common.collect.Lists;
 import com.zh.spider.videodetail.entity.VideoDetails;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +42,9 @@ public class FileDateNewPipeline implements Pipeline {
         //非空判断 防止空指针
         if (Objects.isNull(videoDetails)) {
             return;
+        }
+        if(!FileUtil.exist(this.path)){
+            FileUtil.mkdir(this.path);
         }
         String nowStr = DateUtil.format(LocalDateTime.now(), DatePattern.NORM_DATE_PATTERN);
         try {

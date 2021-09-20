@@ -34,6 +34,7 @@
         <guava.version>23.0</guava.version>
         <webmagic.version>0.7.3</webmagic.version>
         <slf4j.version>1.7.25</slf4j.version>
+        <logback.version>1.2.3</logback.version>
         <hive.version>1.1.0-cdh5.14.0</hive.version>
         <kafka.version>1.0.0</kafka.version>
         <hutool.version>5.7.13</hutool.version>
@@ -120,6 +121,12 @@
                 <groupId>us.codecraft</groupId>
                 <artifactId>webmagic-extension</artifactId>
                 <version>${webmagic.version}</version>
+            </dependency>
+            <!-- 实现slf4j接口并整合 -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
             </dependency>
             <!--jcl桥接器 将jcl的日志输出重定向到slf4j-->
             <dependency>
