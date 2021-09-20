@@ -1,14 +1,13 @@
 package com.zh.spider.videodetail;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.zh.spider.videodetail.entity.Constants;
 import com.zh.spider.videodetail.pipeline.FileDateNewPipeline;
-import com.zh.spider.videodetail.pipeline.KafkaPipeline;
 import com.zh.spider.videodetail.proxyprovider.DynamicProxyProvider;
 import com.zh.spider.videodetail.service.JobInfoProcessorNewService;
 import com.zh.spider.videodetail.utils.DynamicIpsUtils;
 import com.zh.spider.videodetail.utils.SpiderPropertiesUtils;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.proxy.Proxy;
@@ -44,7 +43,7 @@ public class VideoProcessorMain {
 
         String enableUrlFileCache = SpiderPropertiesUtils.getProperty("EnableUrlFileCache");
         String urlFileCachePath = SpiderPropertiesUtils.getProperty("urlFileCachePath");
-        boolean enableUrlFileCacheFlag = StringUtils.isNotBlank(enableUrlFileCache) && "true".compareToIgnoreCase(enableUrlFileCache) == 0 && StringUtils.isNotBlank(urlFileCachePath);
+        boolean enableUrlFileCacheFlag = StrUtil.isNotBlank(enableUrlFileCache) && "true".compareToIgnoreCase(enableUrlFileCache) == 0 && StrUtil.isNotBlank(urlFileCachePath);
         //是否启用文件url缓存
         if (enableUrlFileCacheFlag) {
             //文件url缓存
@@ -58,7 +57,7 @@ public class VideoProcessorMain {
         List<Proxy> proxyList = DynamicIpsUtils.getIpsWithRetry(3);
 
         //如果代理IP池列表不为空则使用代理IP池，为空则使用本机IP爬取
-        if (CollectionUtils.isNotEmpty(proxyList)) {
+        if (CollUtil.isNotEmpty(proxyList)) {
             HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
             httpClientDownloader.setProxyProvider(DynamicProxyProvider.from(proxyList.toArray(new Proxy[0])));
             //设置代理IP池
