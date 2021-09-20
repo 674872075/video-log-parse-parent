@@ -1,30 +1,30 @@
 package com.zh.spider.videodetail.utils;
 
+import cn.hutool.core.io.resource.ResourceUtil;
+import cn.hutool.setting.dialect.Props;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  * @author zhouhao
  * @version 1.0
  * @date 2020/4/25 14:47
  * @Description
+ * properties文件读取工具类
  */
 @Slf4j
 public final class SpiderPropertiesUtils {
 
-    private static final Properties config;
+    private static final Props config;
 
     private SpiderPropertiesUtils() {
     }
 
     static {
-        config = new Properties();
+        config = new Props();
         try {
             //加载配置文件
-            config.load(SpiderPropertiesUtils.class.getClassLoader().getResourceAsStream("spider-config.properties"));
-        } catch (IOException e) {
+            config.load(ResourceUtil.getResourceObj("classpath:spider-config.properties"));
+        } catch (Exception e) {
             log.error("配置文件加载出错:[{}]", e.getMessage(), e);
         }
     }
