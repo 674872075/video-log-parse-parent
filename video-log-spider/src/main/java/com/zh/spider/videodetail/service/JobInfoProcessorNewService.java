@@ -67,7 +67,7 @@ public class JobInfoProcessorNewService implements PageProcessor {
                         //添加浏览器标识  可一定程度上减少触发反爬机制
                         request.addHeader("user-agent", Constants.USER_AGENT);
                         //链接来源  避开防盗链设置
-                        request.addHeader("referer", arcurl);
+                        request.addHeader("referer", page.getRequest().getUrl());
                         request.setExtras(map);
                         page.addTargetRequest(request);
                     }
