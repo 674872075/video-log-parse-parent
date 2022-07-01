@@ -28,7 +28,7 @@
         <druid.version>1.1.10</druid.version>
         <spring.version>5.0.5.RELEASE</spring.version>
         <mysql.version>5.1.46</mysql.version>
-        <hadoop.client.version>2.6.0-mr1-cdh5.14.0</hadoop.client.version>
+        <hadoop.client.version>2.7.0</hadoop.client.version>
         <hadoop.version>2.6.0-cdh5.14.0</hadoop.version>
         <lombok.version>1.16.20</lombok.version>
         <guava.version>23.0</guava.version>
